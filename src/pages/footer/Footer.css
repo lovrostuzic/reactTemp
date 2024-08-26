@@ -1,0 +1,16 @@
+.footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto; /* Dva kolone za dva <p> elementa */
+    justify-content: center; /* Centriranje sadržaja horizontalno */
+    gap: 20px; /* Razmak između elemenata */
+}
+
+.footer p {
+    margin: 0; /* Uklanjanje podrazumevanih margina */
+}

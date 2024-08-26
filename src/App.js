@@ -7,18 +7,19 @@ import PostUser from './pages/appUser/PostUser';
 import SignupPage from './pages/SignUpPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import Header from './pages/header/Header.js';
+import Footer from './pages/footer/Footer.js';
 
 function App() {
   return (
-   <>
-   <Header />
-   <Routes> 
-            <Route path="/" element={<LoginPage/>} /> 
-            <Route path="/signup" element={ <SignupPage/>} /> 
-                <Route path = "/dashboard" element={<Dashboard/>}/> 
-            </Routes> 
-  
-     </>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+<Footer element={<Footer />} ></Footer>
+    </>
   );
 }
 

@@ -1,29 +1,65 @@
+import React, { useState, useEffect } from 'react';
+import { Button, Container, Table, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-// WelcomeDashboard.js 
-import React from 'react'; 
-import { useNavigate} from 'react-router-dom'; // Import useHistory hook 
-  
-function WelcomeDashboard({ username }) { 
-    const history = useNavigate(); 
-  
-    const handleLogout = () => { 
-        // Perform logout actions here (e.g., clear session, remove authentication token) 
-        // After logout, redirect to the login page 
-        history('/'); 
-    }; 
-  
-    return ( 
-        <div className="d-flex justify-content-center align-items-center vh-100"> 
-            <div className="border rounded-lg p-4" style={{width: '500px', height: '400px'}}> 
-                <h2 className="mb-4 text-center">Welcome to Dashboard</h2> 
-                <p className="mb-4 text-center">Hello, {username}!</p> 
-                <p className="text-center">You are logged in successfully.</p> 
-                <div className="text-center"> 
-                    <button type="button" className="btn btn-primary mt-3" onClick={handleLogout}>Logout</button> 
-                </div> 
-            </div> 
-        </div> 
-    ); 
-} 
-  
-export default WelcomeDashboard; 
+const Dashboard = () => {
+    const [appUsers, setAppUsers] = useState([]);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchAppUsers = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/appUser/all");
+                const data = await response.json();
+      
+                if (Array.isArray(data)) {
+                    setAppUsers(data);
+                } else {
+                    setAppUsers([]); // Postavljanje na prazan niz ako nije niz
+                }
+            } catch (error) {
+                console.error("Error fetching appUsers:", error.message);
+                setAppUsers([]); // Postavljanje n a prazan niz u slučaju greške
+            }
+        };
+
+        fetchAppUsers();
+    }, []);
+
+    return (
+        <Container className='mt-5'>
+            <Row>
+                <Col>
+                    <h1 className='text-center'>AppUsers</h1>
+                    <Table striped bordered hover responsive>
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {appUsers.map((appUser) => (
+                                <tr key={appUser.id}>
+                                    <td>{appUser.firstName}</td>
+                                    <td>{appUser.lastName}</td>
+                                    <td>{appUser.email}</td>
+                                    <td>
+                                        <Button variant='outline-secondary'>Update</Button>
+                                        {" "}
+                                        <Button variant="outline-danger">Delete</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+        </Container>
+    );
+}
+
+export default Dashboard;
